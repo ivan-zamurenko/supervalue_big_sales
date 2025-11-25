@@ -332,5 +332,443 @@ To maximize dashboard utility and user engagement, the following interactive fea
 
 ---
 
-*Document Status: Step 1 Complete ✓*  
+## Step 2: Build Data Source
+
+> **Objective:** Establish a clean, well-structured data foundation by connecting data sources, creating proper data models, and ensuring data quality through type validation and field optimization.
+
+### 2.1 Connect Data
+
+#### **📁 Data Source Location**
+
+The project data is stored in the `/dataset` folder. This centralized location contains all necessary files for building the sales analytics dashboard.
+
+**Connection Process:**
+1. Open Tableau Desktop
+2. Navigate to **Data** → **Connect to Data**
+3. Select appropriate connector (Excel, CSV, Database, etc.)
+4. Browse to `/dataset` folder
+5. Select the data file(s)
+6. Verify successful connection in the Data Source tab
+
+```
+📂 Project Structure
+└── dataset/
+    ├── sales.csv
+    ├── customers.csv
+    └── products.csv
+    └── orders.csv
+```
+
+---
+
+### 2.2 Create Data Model
+
+#### **🔍 Identify Data Types: Dimensions vs. Facts**
+
+Understanding the distinction between **Dimension** and **Fact** data is crucial for building an effective data model.
+
+##### **📐 Dimension Tables (DIM)**
+
+**Definition:** Descriptive attributes that provide context to business metrics. Used for filtering, grouping, and categorizing data.
+
+**Characteristics:**
+- Typically text-based or categorical data
+- Represent the "Who, What, Where, When, Why"
+- Used in filters, rows, columns, and color encoding
+- Lower cardinality (fewer unique values relative to dataset size)
+
+**Common Dimensions in Sales Data:**
+
+| Dimension | Description | Example Values |
+|-----------|-------------|----------------|
+| **Product Name** | Individual product identifier | iPhone 14, Dell Monitor, Office Chair |
+| **Category** | High-level product grouping | Technology, Furniture, Office Supplies |
+| **Sub-Category** | Detailed product classification | Phones, Chairs, Storage, Tables |
+| **Customer Name** | Individual customer identifier | John Smith, ABC Corporation |
+| **Region** | Geographic territory | West, East, Central, South |
+| **State** | State/Province location | California, Texas, New York |
+| **City** | City location | San Francisco, Austin, New York City |
+| **Segment** | Customer classification | Consumer, Corporate, Home Office |
+| **Ship Mode** | Delivery method | Standard Class, First Class, Same Day |
+| **Order Date** | Date dimension | 2024-01-15, 2023-12-31 |
+
+##### **📊 Fact Tables (FACT)**
+
+**Definition:** Quantitative data representing business measurements and metrics. Used for calculations and aggregations.
+
+**Characteristics:**
+- Numeric data that can be aggregated
+- Represent measurable business events
+- Used in calculations, aggregations (SUM, AVG, COUNT)
+- High cardinality (many unique values)
+
+**Common Facts in Sales Data:**
+
+| Fact | Description | Aggregation Type |
+|------|-------------|------------------|
+| **Sales** | Total revenue amount | SUM, AVG |
+| **Profit** | Profit amount | SUM, AVG |
+| **Quantity** | Number of units sold | SUM, AVG, COUNT |
+| **Discount** | Discount percentage/amount | AVG, SUM |
+| **Shipping Cost** | Cost of delivery | SUM, AVG |
+
+**Visual Distinction:**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  DATA MODEL STRUCTURE                               │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  DIM_Products                    FACT_Sales         │
+│  ┌──────────────┐               ┌──────────────┐    │
+│  │ Product ID   │◄──────────────│ Product ID   │    │
+│  │ Product Name │               │ Order ID     │    │
+│  │ Category     │               │ Customer ID  │    │
+│  │ Sub-Category │               │ Order Date   │    │
+│  └──────────────┘               │ Sales        │    │
+│                                 │ Profit       │    │
+│  DIM_Customers                  │ Quantity     │    │
+│  ┌──────────────┐               │ Discount     │    │
+│  │ Customer ID  │◄──────────────│              │    │
+│  │ Customer Name│               └──────────────┘    │
+│  │ Segment      │                                   │
+│  │ Region       │                                   │
+│  │ State        │                                   │
+│  │ City         │                                   │
+│  └──────────────┘                                   │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
+
+---
+
+### 2.3 Rename Fields & Tables
+
+#### **🏷️ Purpose of Renaming**
+
+Clean, descriptive names improve:
+- **Readability:** Easier for team members to understand
+- **Consistency:** Standardized naming conventions
+- **Professionalism:** Client-ready field names in tooltips and filters
+- **Maintenance:** Simpler troubleshooting and updates
+
+#### **Naming Best Practices**
+
+**Before → After Examples:**
+
+| Original Name | Renamed To | Reason |
+|---------------|------------|--------|
+| `prod_cat` | `Product Category` | More descriptive, readable |
+| `OrderDt` | `Order Date` | Consistent formatting |
+| `cust_seg` | `Customer Segment` | Professional appearance |
+| `qty` | `Quantity` | Full word clarity |
+| `rev` | `Sales Revenue` | Explicit meaning |
+| `Table1` | `Sales Transactions` | Meaningful table name |
+| `Sheet1` | `Customer Master` | Descriptive purpose |
+
+**Renaming Process in Tableau:**
+1. Navigate to **Data Source** tab
+2. Right-click on field name
+3. Select **Rename**
+4. Enter new descriptive name
+5. Press Enter to confirm
+
+```
+✓ Use clear, business-friendly terminology
+✓ Avoid abbreviations unless industry-standard
+✓ Use Title Case for consistency
+✓ Remove underscores, replace with spaces
+✓ Make names self-explanatory
+```
+
+---
+
+### 2.4 Check Data Types
+
+> **⚠️ CRITICAL STEP:** Incorrect data types are the most common source of errors in Tableau dashboards. Always validate data types before proceeding with analysis.
+
+#### **🔢 Priority Data Type Checks**
+
+##### **1️⃣ DATE Fields (HIGHEST PRIORITY)**
+
+**Problem:** Date fields frequently import as STRING (text) instead of DATE type.
+
+**Impact if Incorrect:**
+- ❌ Cannot perform time-based calculations
+- ❌ Date filters won't work properly
+- ❌ Unable to extract year, month, quarter
+- ❌ Trend analysis becomes impossible
+
+**Validation Process:**
+
+```
+┌────────────────────────────────────────┐
+│  Field: Order Date                     │
+├────────────────────────────────────────┤
+│  Current Type: Abc (String) ❌         │
+│                                        │
+│  Should Be: 📅 (Date) ✓                │
+│                                        │
+│  Action Required: Change Data Type     │
+└────────────────────────────────────────┘
+```
+
+**How to Fix in Tableau:**
+1. Click the data type icon next to the field name
+2. Select **Date** from dropdown menu
+3. Verify the date format is recognized correctly
+4. Check a few sample values to confirm
+
+**Date Fields to Check:**
+- ✓ Order Date
+- ✓ Ship Date
+- ✓ Delivery Date
+- ✓ Return Date
+- ✓ Any timestamp fields
+
+---
+
+##### **2️⃣ GEOGRAPHIC Fields (REGION, STATE, CITY)**
+
+**Problem:** Geographic fields import as STRING instead of Geographic Role type.
+
+**Impact if Incorrect:**
+- ❌ Cannot use map visualizations
+- ❌ Missing automatic latitude/longitude generation
+- ❌ No geographic hierarchy
+- ❌ Spatial analysis unavailable
+
+**Validation Process:**
+
+```
+┌────────────────────────────────────────┐
+│  Field: Region                         │
+├────────────────────────────────────────┤
+│  Current Type: Abc (String) ❌         │
+│                                        │
+│  Should Be: 🌍 (Geographic) ✓          │
+│                                        │
+│  Available Roles:                      │
+│  • Country/Region                      │
+│  • State/Province                      │
+│  • City                                │
+│  • ZIP Code/Postcode                   │
+└────────────────────────────────────────┘
+```
+
+**How to Assign Geographic Role:**
+1. Right-click on the field
+2. Select **Geographic Role**
+3. Choose appropriate option:
+   - **Country/Region** → for Region field
+   - **State/Province** → for State field
+   - **City** → for City field
+   - **ZIP Code/Postcode** → for postal codes
+4. Tableau will validate and assign coordinates
+
+**Geographic Fields to Check:**
+- ✓ Region → Assign "Country/Region" role
+- ✓ State → Assign "State/Province" role
+- ✓ City → Assign "City" role
+- ✓ Country → Assign "Country/Region" role
+- ✓ Postal Code → Assign "ZIP Code/Postcode" role
+
+**Verification:**
+- Look for globe icon 🌍 next to field name
+- Test by dragging to sheet - should auto-generate map
+
+---
+
+##### **3️⃣ NUMBER Fields (CRITICAL FOR CALCULATIONS)**
+
+**Problem:** Numeric fields may import as STRING type, preventing mathematical operations.
+
+**Impact if Incorrect:**
+- ❌ Cannot sum, average, or aggregate
+- ❌ Calculations will fail or produce errors
+- ❌ Unable to create KPIs
+- ❌ Year-over-year comparisons impossible
+
+**Validation Process:**
+
+```
+┌────────────────────────────────────────┐
+│  Field: Sales                          │
+├────────────────────────────────────────┤
+│  Current Type: Abc (String) ❌         │
+│  Sample Value: "1,234.56"              │
+│                                        │
+│  Should Be: #️⃣ (Number - Decimal) ✓    │
+│  Sample Value: 1234.56                 │
+│                                        │
+│  Field: Quantity                       │
+│  Should Be: #️⃣ (Number - Whole) ✓      │
+└────────────────────────────────────────┘
+```
+
+**How to Fix in Tableau:**
+1. Click the data type icon (Abc or #)
+2. Select appropriate number type:
+   - **Number (Decimal)** → for currency, percentages
+   - **Number (Whole)** → for quantities, counts
+3. Verify sample values display correctly
+4. Check for any null or error values
+
+**Number Fields to Check:**
+
+| Field | Expected Type | Reason |
+|-------|---------------|--------|
+| **Sales** | Number (Decimal) | Currency values with cents |
+| **Profit** | Number (Decimal) | Can be negative, has decimals |
+| **Quantity** | Number (Whole) | Integer count of items |
+| **Discount** | Number (Decimal) | Percentage values |
+| **Shipping Cost** | Number (Decimal) | Currency values |
+| **Product ID** | String | Identifier, not for calculation |
+| **Order ID** | String | Identifier, not for calculation |
+| **Year** | Number (Whole) or Date Part | Depends on use case |
+
+**⚠️ Important Note on IDs:**
+- Even if IDs contain only numbers, keep them as STRING
+- IDs are identifiers, not measures for calculation
+- Examples: Order ID, Customer ID, Product ID
+
+---
+
+### 2.5 Understand Data
+
+#### **🔍 Data Exploration Checklist**
+
+Before building visualizations, thoroughly understand your dataset:
+
+##### **Data Profiling Activities:**
+
+**1. Check Data Quality:**
+```
+□ Identify null/missing values
+□ Check for duplicate records
+□ Verify data ranges (min/max values)
+□ Look for outliers or anomalies
+□ Confirm date ranges align with expectations
+```
+
+**2. Understand Relationships:**
+```
+□ Identify primary keys (unique identifiers)
+□ Understand foreign key relationships
+□ Determine cardinality (one-to-many, many-to-many)
+□ Document join conditions
+```
+
+**3. Data Profiling in Tableau:**
+```
+┌─────────────────────────────────────────┐
+│  Quick Data Profile View                │
+├─────────────────────────────────────────┤
+│  Sales:                                 │
+│  • Min: $0.44                           │
+│  • Max: $22,638.48                      │
+│  • Avg: $229.86                         │
+│  • Null Count: 0                        │
+│                                         │
+│  Order Date:                            │
+│  • Earliest: 2020-01-03                 │
+│  • Latest: 2024-12-30                   │
+│  • Date Range: 5 years                  │
+│                                         │
+│  Region:                                │
+│  • Unique Values: 4                     │
+│  • Values: West, East, Central, South   │
+└─────────────────────────────────────────┘
+```
+
+**4. Business Logic Validation:**
+```
+□ Profit = Sales - Costs (verify formula)
+□ Negative profits indicate losses
+□ Discounts should be between 0-100%
+□ Quantities should be positive integers
+□ Dates should be within business operating period
+```
+
+---
+
+### 📋 Step 2 Completion Checklist
+
+```
+✅ Data Source Connected
+   └─ Files loaded from /dataset folder
+
+✅ Data Model Created
+   └─ Dimensions identified (Product, Customer, Location, Time)
+   └─ Facts identified (Sales, Profit, Quantity)
+
+✅ Fields & Tables Renamed
+   └─ Descriptive, business-friendly names applied
+   └─ Consistent naming convention established
+
+✅ Data Types Validated (CRITICAL)
+   └─ ✓ DATE fields converted from String → Date
+   └─ ✓ REGION/LOCATION fields assigned Geographic Roles
+   └─ ✓ NUMBER fields verified (Sales, Profit, Quantity)
+   └─ ✓ String fields retained for identifiers
+
+✅ Data Understanding Complete
+   └─ Data quality assessed
+   └─ Relationships documented
+   └─ Business logic validated
+```
+
+---
+
+### 🎓 Skills Demonstrated in Step 2
+
+- ✅ **Data Integration:** Connecting and importing data from multiple sources
+- ✅ **Data Modeling:** Distinguishing dimensions from facts, creating star schema
+- ✅ **Data Quality Management:** Validating data types, identifying issues
+- ✅ **ETL Fundamentals:** Understanding Extract, Transform, Load processes
+- ✅ **Metadata Management:** Renaming and organizing fields for usability
+- ✅ **Geographic Data Handling:** Assigning spatial roles for mapping capabilities
+- ✅ **Data Profiling:** Exploring and validating data before analysis
+
+---
+
+### ⚠️ Common Pitfalls to Avoid
+
+| Issue | Problem | Solution |
+|-------|---------|----------|
+| **String Dates** | Cannot perform time analysis | Always convert to Date type |
+| **String Numbers** | Calculations fail | Verify all metrics are Number type |
+| **Missing Geo Roles** | Maps don't work | Assign geographic roles to location fields |
+| **Unclear Names** | Confusion in analysis | Use descriptive, business-friendly names |
+| **Skipped Validation** | Errors in dashboard | Always verify data types before building |
+
+---
+
+### 💡 Pro Tips
+
+```
+🎯 Create a Data Dictionary
+   Document all fields, their types, and business definitions
+   
+🎯 Save Data Source as .tds File
+   Reusable connection for multiple workbooks
+   
+🎯 Use Data Source Filters
+   Exclude test data or irrelevant records early
+   
+🎯 Create Calculated Fields for Common Metrics
+   Set up foundational calculations in data source
+   
+🎯 Test Joins with Sample Data
+   Verify relationships before building complex views
+```
+
+---
+
+> **Next Step:** [Step 3: Build Charts](#step-3-build-charts)  
+> With clean, validated data in place, we'll create calculated fields and build the visualizations designed in Step 1.
+
+---
+
+*Document Status: Step 2 Complete ✓*  
 *Last Updated: November 25, 2025*
