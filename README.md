@@ -56,7 +56,7 @@ supervalue_big_sales/
 ### Sales Dashboard Components (Step 3 Results)
 
 <div align="center">
-  <img src="tableau/screenshots/step3_sales_charts.png" alt="Sales Dashboard - KPIs and Sparklines" width="800"/>
+  <img src="tableau_screenshots/total_sales.png" alt="Sales Dashboard - KPIs and Sparklines" width="800"/>
 </div>
 
 **Featured Visualizations:**
