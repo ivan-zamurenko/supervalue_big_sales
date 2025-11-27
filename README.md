@@ -84,6 +84,34 @@ supervalue_big_sales/
 
 ---
 
+### Fully Dynamic Dashboard with Filters (Step 4.1 - Complete)
+
+<div align="center">
+  <img src="tableau/screenshots/dashboard_with_filters.png" alt="Sales Dashboard with Dynamic Filters Panel" width="900"/>
+</div>
+
+**Interactive Filter Features:**
+- 🎛️ **Right-Side Filter Panel** - Organized, icon-enhanced filter section
+- 📅 **Year Selection** - Parameter-driven dynamic year switching
+- 📦 **Product Filters** - Category and Subcategory with hierarchical filtering
+- 🗺️ **Location Filters** - Region → State → City drill-down capability
+- 🔄 **Fully Dynamic** - All charts respond instantly to filter selections
+- ⚡ **Cross-Chart Filtering** - Click any visualization to filter others
+- 🎯 **Synchronized Updates** - KPIs, trends, and comparisons update in real-time
+- ✨ **Icon Integration** - Visual indicators (📅 📦 🗺️ 📍 🏙️) for intuitive navigation
+
+**Filter Capabilities:**
+```
+User Actions → Dashboard Response
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Select "Technology" → Shows only tech products
+Choose "West Region" → Filters to western states
+Click "Phones" bar → All charts show phone data
+Change to 2019 → Historical comparison updates
+```
+
+---
+
 ## 🎨 Design System
 
 **Color Palette:**
