@@ -2071,4 +2071,1044 @@ Growth: <IF YoY % > 0 THEN "↑" ELSE "↓" END> <YoY Sales % Diff>
 ---
 
 *Document Status: Step 3 Complete ✓*  
-*Last Updated: November 26, 2025*
+*Last Updated: November 27, 2025*
+
+---
+
+## Step 4: Build Dashboards
+
+> **Objective:** Assemble individual charts into a cohesive, professional dashboard with optimal layout, consistent formatting, interactive filters, and visual enhancements that deliver exceptional user experience.
+
+This is where all previous work comes together - transforming individual visualizations into an integrated analytical tool.
+
+---
+
+### 4.1 Draw Mockups for Containers
+
+#### **📐 Purpose of Container Mockups**
+
+Before building in Tableau, create a visual blueprint that defines:
+- **Layout structure** - How content is organized spatially
+- **Container hierarchy** - Nested structure for responsive design
+- **Component placement** - Exact positioning of each chart
+- **Spacing and padding** - White space for visual breathing room
+- **Responsive behavior** - How dashboard adapts to different screen sizes
+
+**Design Principle:** Containers create structure. Good container design enables flexible, maintainable dashboards.
+
+---
+
+#### **🎨 Dashboard Layout Strategy**
+
+**F-Pattern Reading Behavior:**
+Users naturally scan content in an F-pattern (top-left → top-right → down left side). Place most important information accordingly.
+
+**Visual Hierarchy:**
+```
+┌─────────────────────────────────────────────────┐
+│  1. HEADER (Branding, Title, Filters)          │ ← Top Priority
+├─────────────────────────────────────────────────┤
+│  2. KPI CARDS (BANs - Sales, Profit, Quantity) │ ← High Priority
+├─────────────────────────────────────────────────┤
+│ 3. MAIN CONTENT                                 │
+│ ┌────────────────┬──────────────────────────┐  │
+│ │  Monthly       │  Subcategory             │  │ ← Medium Priority
+│ │  Sparkline     │  Bar Chart               │  │
+│ └────────────────┴──────────────────────────┘  │
+├─────────────────────────────────────────────────┤
+│  4. DETAILED ANALYSIS (Weekly Trends)           │ ← Lower Priority
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+#### **📊 Sales Dashboard Container Mockup**
+
+**Complete Structure:**
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│  HORIZONTAL CONTAINER (Outer - Full Dashboard)                │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  HEADER CONTAINER (Horizontal)                          │  │
+│  │  ┌──────┐  ┌─────────────────┐  ┌──────────────────┐  │  │
+│  │  │ Logo │  │ Dashboard Title │  │ Year Parameter   │  │  │
+│  │  └──────┘  └─────────────────┘  └──────────────────┘  │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  KPI CONTAINER (Horizontal - Evenly Distributed)       │  │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐            │  │
+│  │  │  Total   │  │  Total   │  │  Total   │            │  │
+│  │  │  Sales   │  │  Profit  │  │ Quantity │            │  │
+│  │  │  BAN     │  │  BAN     │  │  BAN     │            │  │
+│  │  └──────────┘  └──────────┘  └──────────┘            │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  MAIN CONTENT CONTAINER (Horizontal)                    │  │
+│  │  ┌──────────────────────┐  ┌────────────────────────┐  │  │
+│  │  │  VERTICAL CONTAINER  │  │  Subcategory           │  │  │
+│  │  │  ┌────────────────┐  │  │  Performance           │  │  │
+│  │  │  │ Monthly Sales  │  │  │  (Bar-in-Bar)          │  │  │
+│  │  │  │ Sparkline      │  │  │                        │  │  │
+│  │  │  └────────────────┘  │  │                        │  │  │
+│  │  │  ┌────────────────┐  │  │                        │  │  │
+│  │  │  │ Monthly Profit │  │  │                        │  │  │
+│  │  │  │ Sparkline      │  │  │                        │  │  │
+│  │  │  └────────────────┘  │  └────────────────────────┘  │  │
+│  │  └──────────────────────┘                              │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  DETAILED ANALYSIS CONTAINER (Horizontal)               │  │
+│  │  ┌──────────────────────────────────────────────────┐  │  │
+│  │  │  Weekly Sales & Profit Trends (Full Width)       │  │  │
+│  │  │  (With average reference lines)                  │  │  │
+│  │  └──────────────────────────────────────────────────┘  │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  FILTER PANEL (Vertical - Right Side or Left)          │  │
+│  │  ┌─────────────────┐                                   │  │
+│  │  │ Category        │                                   │  │
+│  │  │ Subcategory     │                                   │  │
+│  │  │ Region          │                                   │  │
+│  │  │ State           │                                   │  │
+│  │  │ City            │                                   │  │
+│  │  └─────────────────┘                                   │  │
+│  └─────────────────────────────────────────────────────────┘  │
+└───────────────────────────────────────────────────────────────┘
+```
+
+**Container Types:**
+- **Horizontal Container** - Arranges objects left-to-right
+- **Vertical Container** - Arranges objects top-to-bottom
+- **Floating Objects** - Positioned independently (use sparingly)
+
+---
+
+#### **🎯 Mockup Best Practices**
+
+**Design Considerations:**
+
+1. **Responsive Design:**
+   - Use containers (not floating) for automatic resizing
+   - Test on different screen sizes
+   - Ensure readability on laptops and large monitors
+
+2. **Visual Balance:**
+   - Distribute space proportionally
+   - Equal-sized KPI cards
+   - Charts sized by importance and data density
+
+3. **White Space:**
+   - Inner padding: 8-16px between elements
+   - Outer padding: 16-24px from dashboard edges
+   - Breathing room prevents cramped appearance
+
+4. **Alignment:**
+   - All elements snap to grid
+   - Consistent margins throughout
+   - Clean vertical and horizontal lines
+
+---
+
+### 4.2 Build Container Structure
+
+#### **🏗️ Step-by-Step Container Creation**
+
+**Creating the Dashboard:**
+
+1. **Create New Dashboard:**
+   - Click **Dashboard** menu → **New Dashboard**
+   - Name it: `Sales Dashboard`
+
+2. **Set Dashboard Size:**
+   - In Dashboard pane (left side)
+   - Size: **Automatic** (recommended for responsive design)
+   - Or set fixed size: **1920 x 1080** (desktop standard)
+
+**Size Options:**
+```
+┌─────────────────────────────┐
+│  Dashboard Size Options:    │
+├─────────────────────────────┤
+│  ○ Automatic (Responsive)   │ ← Recommended
+│  ○ Fixed Size                │
+│     • Desktop: 1920x1080     │
+│     • Laptop: 1366x768       │
+│     • Tablet: 1024x768       │
+│  ○ Range: Min-Max            │
+└─────────────────────────────┘
+```
+
+---
+
+#### **🎨 Building Container Hierarchy**
+
+**Step 1: Create Outer Vertical Container**
+
+1. Drag **Vertical** container from Objects panel to dashboard
+2. This becomes the master container holding all sections
+3. Set to full width and height
+
+**Step 2: Add Header Container**
+
+1. Drag **Horizontal** container into top of vertical container
+2. Set height: **80-100px** (fixed)
+3. Add components:
+   - **Image object** (logo) - left aligned
+   - **Text object** (title) - center or left
+   - **Parameter control** (year selector) - right aligned
+
+**Header Setup:**
+```
+┌──────────────────────────────────────────────┐
+│ [Logo]  Sales Dashboard - 2024      [2024▼] │
+└──────────────────────────────────────────────┘
+```
+
+**Step 3: Add KPI Container**
+
+1. Drag **Horizontal** container below header
+2. Set height: **120-150px** (fixed or automatic)
+3. Drag three BAN worksheets into container
+4. Set distribution: **Distribute Contents Evenly**
+
+**Even Distribution Settings:**
+- Right-click container → **Distribute Contents**
+- Select **Evenly**
+- All KPI cards get equal width automatically
+
+**Step 4: Add Main Content Container**
+
+1. Drag **Horizontal** container below KPI section
+2. This holds sparklines and subcategory chart
+3. Divide space: 40% sparklines, 60% subcategory chart
+
+**Nested Container for Sparklines:**
+1. Drag **Vertical** container into left portion
+2. Drag Sales Sparkline worksheet
+3. Drag Profit Sparkline worksheet below it
+4. Set distribution: **Evenly**
+
+**Step 5: Add Detailed Analysis Container**
+
+1. Drag **Horizontal** container below main content
+2. Drag Weekly Trends worksheet
+3. Set to full width
+
+**Step 6: Add Filter Panel (Optional Sidebar)**
+
+**Option A: Right Sidebar**
+1. Change outer container from Vertical to **Horizontal**
+2. Add **Vertical** container to right side
+3. Set width: **200-250px** (fixed)
+4. Add filter objects
+
+**Option B: Floating Filters**
+1. Add filter objects as floating
+2. Position in top-right corner
+3. Make collapsible for space efficiency
+
+---
+
+### 4.3 Put All Charts Together
+
+#### **📌 Adding Worksheets to Dashboard**
+
+**Drag-and-Drop Process:**
+
+1. From **Sheets** panel (left side), locate worksheet
+2. Drag worksheet to desired container
+3. Watch for blue and gray highlighting:
+   - **Blue** = will be placed in container (tiled)
+   - **Gray** = specific position within container
+4. Drop when positioning is correct
+
+**Adding Each Component:**
+
+**1. KPI BANs:**
+```
+Drag order into KPI Container:
+1. BAN - Total Sales
+2. BAN - Total Profit  
+3. BAN - Total Quantity
+
+Result: Three equal-width cards
+```
+
+**2. Sparklines:**
+```
+Drag order into Sparkline Vertical Container:
+1. Sparkline - Sales Trend
+2. Sparkline - Profit Trend (if separate)
+
+Result: Stacked compact trend views
+```
+
+**3. Subcategory Chart:**
+```
+Drag into right portion of Main Content:
+1. Sales & Profit by Subcategory
+
+Result: Full height bar chart
+```
+
+**4. Weekly Trends:**
+```
+Drag into Detailed Analysis Container:
+1. Weekly Trends - Sales & Profit
+
+Result: Full-width time series
+```
+
+---
+
+#### **🔧 Adjusting Proportions**
+
+**Resizing Containers:**
+1. Hover over border between containers
+2. Cursor changes to resize icon ↔️
+3. Click and drag to adjust proportion
+4. Release when desired size achieved
+
+**Recommended Proportions:**
+```
+┌─────────────────────────────────┐
+│  Header:        80px (fixed)    │
+├─────────────────────────────────┤
+│  KPIs:          140px (fixed)   │
+├─────────────────────────────────┤
+│  Main Content:  45% (flexible)  │
+├─────────────────────────────────┤
+│  Weekly Trends: 35% (flexible)  │
+├─────────────────────────────────┤
+│  Footer:        20px (optional) │
+└─────────────────────────────────┘
+```
+
+---
+
+### 4.4 Format Dashboard
+
+#### **🎨 Format Step 1: Distribute Content Evenly**
+
+**Purpose:** Ensure visual balance and professional appearance.
+
+**How to Apply:**
+
+1. **Select Container** (click border to highlight)
+2. Right-click container
+3. Select **Distribute Contents**
+4. Choose **Evenly**
+
+**Where to Apply:**
+- ✅ KPI Container (3 BANs equal width)
+- ✅ Sparkline Container (equal height)
+- ✅ Any container with multiple similar elements
+
+**Visual Result:**
+```
+BEFORE (Uneven):          AFTER (Even Distribution):
+┌──────┬─────┬─────────┐  ┌─────────┬─────────┬─────────┐
+│Sales │Profit│Quantity│  │ Sales   │ Profit  │Quantity │
+│      │     │         │  │         │         │         │
+└──────┴─────┴─────────┘  └─────────┴─────────┴─────────┘
+Inconsistent widths       Perfect balance
+```
+
+---
+
+#### **🎨 Format Step 2: Colors, Sizes & Consistency**
+
+**Dashboard-Wide Color Settings:**
+
+1. **Background:**
+   - Dashboard → Format
+   - Default background: White or `#f8f8f8` (very light gray)
+   - Maintains minimalist aesthetic
+
+2. **Container Colors:**
+   - Individual containers can have subtle backgrounds
+   - KPI container: Light background `#f5f5f5` for emphasis
+   - Other containers: White for clean look
+
+**How to Format Container:**
+1. Click container border
+2. Format panel appears
+3. **Shading** → Select color
+4. Adjust **Outer Padding** and **Inner Padding**
+
+---
+
+#### **📐 Format Step 3: Fit "Entire View"**
+
+**Purpose:** Ensure charts fill their allocated space optimally without scrollbars.
+
+**For Each Worksheet in Dashboard:**
+
+1. Click worksheet on dashboard (small dropdown arrow appears)
+2. Click dropdown → **Fit** → Select option:
+
+**Fit Options:**
+```
+┌─────────────────────────────┐
+│  Fit Options:               │
+├─────────────────────────────┤
+│  ○ Standard                 │
+│  ○ Fit Width                │
+│  ○ Fit Height               │
+│  ● Entire View              │ ← Recommended
+│  ○ Range                    │
+└─────────────────────────────┘
+```
+
+**When to Use Each:**
+- **Entire View** - Most charts (fills container completely)
+- **Fit Width** - Wide charts (maintains height ratio)
+- **Fit Height** - Tall charts (maintains width ratio)
+- **Standard** - Default Tableau sizing
+
+**Apply to All Charts:**
+- ✅ All BANs → Entire View
+- ✅ Sparklines → Entire View
+- ✅ Subcategory Chart → Entire View
+- ✅ Weekly Trends → Entire View
+
+---
+
+#### **🎨 Format Step 4: Add Legends**
+
+**Purpose:** Help users understand color coding and data representation.
+
+**Which Charts Need Legends:**
+- ✅ Subcategory Chart (CY vs PY colors)
+- ✅ Weekly Trends (Sales vs Profit lines)
+- ✅ Any chart with color-coded categories
+
+**Adding Legends:**
+
+**Method 1: Automatic (from Worksheet)**
+1. In worksheet, ensure legend is visible
+2. When added to dashboard, legend comes with it
+3. Position automatically or manually
+
+**Method 2: Dashboard-Level Legend**
+1. Click worksheet dropdown on dashboard
+2. Select **Legend** → Choose legend type:
+   - Color Legend
+   - Size Legend
+   - Shape Legend
+
+**Formatting Legends:**
+1. Click legend on dashboard
+2. Use dropdown menu:
+   - **Edit Title** - Customize legend name
+   - **Format** - Change font, size, colors
+   - **Floating** - Make it overlay content (saves space)
+
+**Legend Positioning:**
+```
+Option 1: Embedded in Container
+┌────────────────────────────┐
+│  Chart Content             │
+│                            │
+│  Legend:                   │
+│  ■ CY 2024  ■ PY 2023     │
+└────────────────────────────┘
+
+Option 2: Floating (Overlay)
+┌────────────────────────────┐
+│  Chart Content   ┌────────┐│
+│                  │Legend  ││
+│                  │■ CY    ││
+│                  │■ PY    ││
+│                  └────────┘│
+└────────────────────────────┘
+```
+
+**Best Practices:**
+- Keep legends compact (show only necessary info)
+- Position consistently across charts
+- Use floating for space efficiency
+- Match legend styling to dashboard theme
+
+---
+
+#### **📐 Format Step 5: Add Spaces (Inner/Outer Padding)**
+
+**Purpose:** Create visual breathing room and prevent cramped appearance.
+
+**Padding Types:**
+
+**Outer Padding:**
+- Space between container edge and dashboard edge
+- Creates margin around entire section
+
+**Inner Padding:**
+- Space between container edge and its contents
+- Provides cushion within sections
+
+**How to Add Padding:**
+
+1. **Select Container** (click border)
+2. **Format** panel opens
+3. Adjust padding values:
+
+```
+Format Container Panel:
+┌─────────────────────────┐
+│ Background              │
+│ Border                  │
+│ Outer Padding           │
+│ ├─ Horizontal: 16px    │
+│ └─ Vertical:   16px    │
+│ Inner Padding           │
+│ ├─ Horizontal: 12px    │
+│ └─ Vertical:   12px    │
+└─────────────────────────┘
+```
+
+**Recommended Padding Values:**
+
+| Container Type | Outer Padding | Inner Padding |
+|----------------|---------------|---------------|
+| **Outer Dashboard** | 20-24px | 16px |
+| **Header** | 16px | 12px |
+| **KPI Section** | 12px | 10px |
+| **Main Content** | 12px | 10px |
+| **Individual Charts** | 8px | 8px |
+
+**Visual Impact:**
+```
+WITHOUT PADDING (Cramped):
+┌─────────────────────┐
+│███████████████████│
+│█Chart Content█████│
+│███████████████████│
+└─────────────────────┘
+
+WITH PADDING (Comfortable):
+┌─────────────────────┐
+│                     │
+│   Chart Content     │
+│                     │
+└─────────────────────┘
+```
+
+---
+
+### 4.5 Add Filters & Dynamic Interactivity
+
+#### **🎛️ Filter Types & Implementation**
+
+**Purpose:** Enable users to explore data from multiple perspectives.
+
+---
+
+#### **📅 Filter 1: Year Parameter (Already Created)**
+
+**Implementation:**
+1. Parameter control already visible in header
+2. Ensure all calculated fields reference this parameter
+3. Test: Change year → all charts update
+
+**Placement:** Top-right of header container
+
+---
+
+#### **📦 Filter 2: Product Filters**
+
+**Adding Category Filter:**
+
+1. From any worksheet, drag **Category** to Filters shelf
+2. Right-click filter → **Show Filter**
+3. On dashboard, locate filter object
+4. Click filter dropdown → **Apply to Worksheets**
+5. Select: **All Using This Data Source**
+
+**Filter Display Options:**
+- Single Value (List)
+- Single Value (Dropdown) ← Compact
+- Multiple Values (List) ← Recommended for 3-5 items
+- Multiple Values (Dropdown)
+- Multiple Values (Custom List)
+
+**Adding Subcategory Filter:**
+1. Repeat process with **Sub-Category** field
+2. Apply to all worksheets
+3. Position below Category filter
+
+**Hierarchical Filtering:**
+- When Category selected → Subcategory shows only relevant values
+- Implement using **Only Relevant Values** in filter settings
+
+---
+
+#### **🗺️ Filter 3: Geographic Filters**
+
+**Adding Location Filters:**
+
+1. **Region Filter:**
+   - Drag **Region** to Filters
+   - Show filter → Apply to all worksheets
+   - Display: Multiple Values (List)
+
+2. **State Filter:**
+   - Drag **State** to Filters
+   - Context menu: **Only Relevant Values**
+   - Shows states only from selected regions
+
+3. **City Filter:**
+   - Drag **City** to Filters
+   - Display: Multiple Values (Dropdown) - many values
+   - Shows cities only from selected states
+
+**Filter Panel Layout:**
+```
+┌─────────────────────┐
+│  📍 FILTERS         │
+├─────────────────────┤
+│  📅 Year: [2024 ▼] │
+│                     │
+│  📦 Category        │
+│  ☑ Technology       │
+│  ☑ Furniture        │
+│  ☑ Office Supplies  │
+│                     │
+│  📦 Subcategory     │
+│  [Select... ▼]      │
+│                     │
+│  🗺️  Region          │
+│  ☑ West             │
+│  ☐ East             │
+│  ☐ Central          │
+│  ☐ South            │
+│                     │
+│  📍 State           │
+│  [Select... ▼]      │
+│                     │
+│  🏙️  City            │
+│  [Search...     ]   │
+│                     │
+│  [Apply] [Reset]    │
+└─────────────────────┘
+```
+
+---
+
+#### **🔄 Interactive Actions**
+
+**Filter Actions (Click-to-Filter):**
+
+**Purpose:** Enable cross-filtering - clicking on one chart filters others.
+
+**Setting Up Filter Action:**
+
+1. Dashboard menu → **Actions**
+2. Click **Add Action** → **Filter**
+3. Configure:
+
+```
+┌─────────────────────────────────────┐
+│  Add Filter Action                  │
+├─────────────────────────────────────┤
+│  Name: Filter by Subcategory        │
+│                                     │
+│  Source Sheets:                     │
+│  ☑ Sales & Profit by Subcategory   │
+│                                     │
+│  Run action on: ○ Hover             │
+│                 ● Select            │ ← Recommended
+│                 ○ Menu              │
+│                                     │
+│  Target Sheets:                     │
+│  ☑ Sparkline - Sales Trend         │
+│  ☑ Weekly Trends                   │
+│  ☑ BAN - Total Sales               │
+│  (Select all relevant)             │
+│                                     │
+│  Clearing selection will:           │
+│  ● Show all values                  │ ← Recommended
+│  ○ Keep filtered values             │
+│  ○ Exclude all values               │
+└─────────────────────────────────────┘
+```
+
+4. Click **OK**
+
+**Result:** Clicking on a subcategory bar filters all other charts to show only that subcategory's data.
+
+**Additional Filter Actions to Create:**
+- Click on Region in map (if added) → filters all charts
+- Click on Week in weekly trends → highlights that week
+- Click on Month in sparkline → filters to that month
+
+---
+
+#### **🔗 Highlight Actions**
+
+**Purpose:** Hovering over or clicking highlights related data across charts without filtering.
+
+**Setting Up Highlight Action:**
+
+1. Dashboard menu → **Actions**
+2. Click **Add Action** → **Highlight**
+3. Configure:
+   - Source: Subcategory Chart
+   - Target: All worksheets
+   - Run on: Hover
+   - Fields: Sub-Category
+
+**Visual Effect:** When hovering over "Phones", all charts highlight phone-related data with color, dimming others.
+
+---
+
+#### **📊 URL Actions (Optional)**
+
+Link to external resources:
+- Click product → opens product page
+- Click region → opens regional report
+- Enhances dashboard utility
+
+---
+
+### 4.6 Add Icons & Visual Enhancements
+
+#### **🎨 Adding Icons for Polish**
+
+**Purpose:** Icons add visual interest and help users quickly identify sections.
+
+---
+
+#### **📍 Icon Sources**
+
+**Free Icon Resources:**
+- Flaticon.com
+- Font Awesome
+- Material Icons
+- Noun Project
+- Custom designed in Figma/Illustrator
+
+**Icon Requirements:**
+- Format: PNG with transparent background
+- Size: 32x32px to 64x64px
+- Color: Match dashboard palette
+- Style: Consistent (all outlined or all filled)
+
+---
+
+#### **🖼️ Adding Icons to Dashboard**
+
+**Method 1: Image Object**
+
+1. **Dashboard Objects** panel → Drag **Image** object
+2. Position where icon should appear (e.g., next to "Filters" title)
+3. Select image file from computer
+4. Configure image:
+   - Fit: **Fit Image**
+   - Center image: ✓
+   - Size: Fixed 40x40px or 48x48px
+
+**Method 2: Unicode Emoji (Simple)**
+
+Use text objects with emoji:
+- 📊 Dashboard
+- 📈 Sales
+- 💰 Profit
+- 📦 Products
+- 🗺️ Location
+- 📅 Date
+
+**Adding Emoji:**
+1. Drag **Text** object to dashboard
+2. Type or paste emoji
+3. Increase font size to 24-32px
+4. Position next to headers
+
+---
+
+#### **🎯 Icon Placement Examples**
+
+**Header with Icon:**
+```
+┌──────────────────────────────────────┐
+│  📊 Sales Performance Dashboard 2024 │
+└──────────────────────────────────────┘
+```
+
+**KPI Cards with Icons:**
+```
+┌─────────────┬─────────────┬─────────────┐
+│ 💰 Sales    │ 💵 Profit   │ 📦 Quantity │
+│             │             │             │
+│ $2,456,892  │  $342,567   │   15,847    │
+└─────────────┴─────────────┴─────────────┘
+```
+
+**Filter Panel with Icons:**
+```
+┌─────────────────────┐
+│  🎛️ FILTERS          │
+├─────────────────────┤
+│  📅 Year            │
+│  📦 Category        │
+│  🗺️  Region          │
+└─────────────────────┘
+```
+
+---
+
+#### **✨ Additional Visual Enhancements**
+
+**1. Borders & Dividers:**
+- Add subtle borders to containers
+- Format → Border → 1px, `#e0e0e0`
+- Creates visual separation
+
+**2. Section Titles:**
+- Text objects above each section
+- Font: Bold, 14-16pt, `#303030`
+- Examples: "Key Metrics", "Trend Analysis", "Product Performance"
+
+**3. Footer with Metadata:**
+```
+┌─────────────────────────────────────────────┐
+│ Data updated: Nov 27, 2025 | Source: Sales DB
+└─────────────────────────────────────────────┘
+```
+
+**4. Navigation Buttons (Multi-Dashboard):**
+- Create button to switch to Customer Dashboard
+- Use Image object with custom button graphic
+- Add Dashboard Action: **Go to Sheet**
+
+**5. Info Icons with Tooltips:**
+- Small ℹ️ icon next to chart titles
+- Hovering shows explanation
+- Implement using **text object** or **image with URL action**
+
+---
+
+### 📋 Step 4 Completion Checklist
+
+```
+✅ Container Structure Built
+   └─ ✓ Mockup designed with layout strategy
+   └─ ✓ Master vertical container created
+   └─ ✓ Header container (logo, title, year parameter)
+   └─ ✓ KPI container (3 BANs evenly distributed)
+   └─ ✓ Main content container (sparklines + subcategory)
+   └─ ✓ Detailed analysis container (weekly trends)
+   └─ ✓ Filter panel positioned
+
+✅ Charts Assembled
+   └─ ✓ All worksheets added to dashboard
+   └─ ✓ Proportions adjusted for optimal viewing
+   └─ ✓ Charts sized appropriately
+
+✅ Formatting Applied
+   └─ ✓ Content distributed evenly in containers
+   └─ ✓ Dashboard colors and background set
+   └─ ✓ All charts fitted to "Entire View"
+   └─ ✓ Legends added and positioned
+   └─ ✓ Inner/outer padding applied (16px/12px)
+   └─ ✓ Visual balance achieved
+
+✅ Interactivity Implemented
+   └─ ✓ Year parameter control functional
+   └─ ✓ Product filters (Category, Subcategory)
+   └─ ✓ Geographic filters (Region, State, City)
+   └─ ✓ Filter actions configured (click-to-filter)
+   └─ ✓ Highlight actions enabled
+   └─ ✓ Cross-filtering across all charts
+
+✅ Visual Enhancements Added
+   └─ ✓ Icons added (emojis or images)
+   └─ ✓ Section titles formatted
+   └─ ✓ Borders and dividers applied
+   └─ ✓ Professional polish completed
+```
+
+---
+
+### 🎓 Skills Demonstrated in Step 4
+
+- ✅ **Dashboard Design:** Creating professional layouts with container hierarchy
+- ✅ **UX/UI Principles:** F-pattern layout, visual hierarchy, white space management
+- ✅ **Responsive Design:** Building flexible dashboards that adapt to screen sizes
+- ✅ **Container Management:** Nested containers for complex, maintainable structures
+- ✅ **Interactive Design:** Implementing filters, actions, and dynamic behavior
+- ✅ **Cross-Filtering:** Enabling seamless data exploration across visualizations
+- ✅ **Visual Polish:** Adding icons, spacing, and professional finishing touches
+- ✅ **Usability:** Designing intuitive navigation and filter hierarchies
+- ✅ **Action Configuration:** Filter actions, highlight actions, dashboard navigation
+- ✅ **Information Architecture:** Organizing content for optimal user comprehension
+
+---
+
+### 💡 Pro Tips for Dashboard Building
+
+```
+🎯 Mobile-First Thinking
+   Design for smallest screen first
+   Then enhance for larger displays
+   Test dashboard on different devices
+
+🎯 Container Best Practices
+   Use containers (not floating) for 90% of layout
+   Reserve floating for tooltips, legends, and overlays
+   Keep container hierarchy no more than 3 levels deep
+
+🎯 Performance Optimization
+   Limit number of marks displayed (< 100K per view)
+   Use data source filters to reduce data load
+   Avoid excessive dashboard actions
+
+🎯 Filter Panel Design
+   Group related filters together
+   Show most important filters first
+   Use dropdowns for fields with many values
+   Add "Select All" / "Clear All" options
+
+🎯 Testing Checklist
+   Test all filter combinations
+   Verify filter actions work correctly
+   Check performance with full data
+   Test on target display size
+   Validate all legends are clear
+
+🎯 Consistency is Key
+   Match padding across all containers
+   Use same font sizes for similar elements
+   Maintain consistent color usage
+   Keep spacing uniform throughout
+```
+
+---
+
+### ⚠️ Common Dashboard Pitfalls
+
+| Pitfall | Problem | Solution |
+|---------|---------|----------|
+| **Too Much Floating** | Objects overlap, hard to maintain | Use containers for 90% of layout |
+| **Inconsistent Spacing** | Unprofessional appearance | Set standard padding values |
+| **Broken Filter Actions** | Filters don't work as expected | Test thoroughly, check worksheet scope |
+| **Cluttered Layout** | Too much in too little space | Use white space, remove non-essential |
+| **No Responsiveness** | Fixed size breaks on different screens | Use automatic or range sizing |
+| **Slow Performance** | Dashboard lags with filters | Optimize data sources, reduce marks |
+
+---
+
+### 🔄 Dashboard Workflow Summary
+
+```
+1. PLAN
+   └─ Draw mockup with container structure
+   └─ Define layout strategy
+
+2. BUILD STRUCTURE
+   └─ Create container hierarchy
+   └─ Set sizes and proportions
+
+3. ADD CONTENT
+   └─ Drag worksheets into containers
+   └─ Adjust fit settings
+
+4. FORMAT
+   └─ Distribute evenly
+   └─ Add padding and spacing
+   └─ Apply colors and borders
+
+5. ADD INTERACTIVITY
+   └─ Configure filters
+   └─ Set up actions
+   └─ Test cross-filtering
+
+6. POLISH
+   └─ Add icons and titles
+   └─ Fine-tune legends
+   └─ Final quality check
+```
+
+---
+
+> **Congratulations!** 🎉  
+> You have completed all four steps of the Tableau Sales Analytics Project.  
+> Your dashboard is now production-ready with professional design, interactive features, and exceptional user experience.
+
+---
+
+*Document Status: Step 4 Complete ✓*  
+*Project Status: Complete ✓*  
+*Last Updated: November 27, 2025*
+
+---
+
+## 🎯 Project Summary
+
+### What You've Built
+
+**Comprehensive Sales Analytics Dashboard featuring:**
+- 📊 3 KPI Cards with YoY comparisons
+- 📈 Trend sparklines with min/max identification
+- 📉 Weekly performance analysis with benchmarking
+- 🎯 Product subcategory comparison charts
+- 🎛️ Multi-level interactive filtering
+- 🎨 Professional, brand-consistent design
+
+### Skills Mastered
+
+**Data Analysis & BI:**
+- Requirements gathering
+- Data modeling (star schema)
+- ETL and data quality management
+- Year-over-year analysis
+- Trend identification
+- Performance benchmarking
+
+**Tableau Expertise:**
+- Advanced calculated fields
+- Parameters and filters
+- Table calculations (WINDOW functions)
+- Dashboard design and layout
+- Container management
+- Actions and interactivity
+- Visual formatting
+
+**Design & UX:**
+- Information architecture
+- Layout principles (F-pattern, hierarchy)
+- Minimalist design philosophy
+- Color theory and branding
+- Responsive design
+- User-centered design
+
+---
+
+### 📸 Final Dashboard Preview
+
+<div align="center">
+  <img src="tableau/screenshots/final_sales_dashboard.png" alt="Complete Sales Performance Dashboard" width="900"/>
+</div>
+
+---
+
+## 📚 Additional Resources
+
+**Tableau Learning:**
+- Official Tableau Training
+- Tableau Public Gallery
+- Makeover Monday Community
+
+**Design Inspiration:**
+- Dribbble (Dashboard Designs)
+- Behance (Data Visualization)
+- Information is Beautiful
+
+**Best Practices:**
+- Tableau Dashboard Starters
+- Visual Analytics Best Practices Guide
+- Dashboard Design Patterns
+
+---
+
+*🎓 This comprehensive project demonstrates enterprise-level business intelligence development capabilities and advanced Tableau proficiency suitable for analyst and BI developer roles.*

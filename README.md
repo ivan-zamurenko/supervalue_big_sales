@@ -56,7 +56,7 @@ supervalue_big_sales/
 ### Sales Dashboard Components (Step 3 Results)
 
 <div align="center">
-  <img src="tableau_screenshots/total_sales.png" alt="Sales Dashboard - KPIs and Sparklines" width="800"/>
+  <img src="tableau/screenshots/step3_sales_charts.png" alt="Sales Dashboard - KPIs and Sparklines" width="800"/>
 </div>
 
 **Featured Visualizations:**
@@ -64,6 +64,23 @@ supervalue_big_sales/
 - **Total Profit BAN** with YoY comparison and % difference ✅
 - **Total Quantity BAN** with YoY comparison and % difference ✅
 - **Monthly Sales Sparkline** with min/max highlights showing trend patterns ✅
+
+---
+
+### Complete Sales Dashboard (Step 4 - Assembly)
+
+<div align="center">
+  <img src="tableau/screenshots/dashboard_prep.png" alt="Complete Sales Performance Dashboard" width="900"/>
+</div>
+
+**Dashboard Features:**
+- 🎯 **Integrated Layout** - All components assembled with professional container structure
+- 📊 **KPI Section** - Three BANs distributed evenly across top
+- 📈 **Trend Analysis** - Sparklines and subcategory comparisons side-by-side
+- 📉 **Weekly Performance** - Detailed time-series with average benchmarks
+- 🎛️ **Interactive Filters** - Multi-level filtering (Year, Category, Subcategory, Geography)
+- ✨ **Minimalist Design** - Clean formatting with optimal spacing and brand colors
+- 🔄 **Cross-Filtering** - Click-to-filter actions across all visualizations
 
 ---
 
@@ -108,15 +125,19 @@ YoY % = (SUM([CY Sales]) - SUM([PY Sales])) / SUM([PY Sales])
 
 **Tableau Expertise:**
 - ✅ Advanced calculated fields & parameters
-- ✅ Table calculations (WINDOW_MAX, WINDOW_MIN)
+- ✅ Table calculations (WINDOW_MAX, WINDOW_MIN, WINDOW_AVG)
 - ✅ Interactive dashboards with cross-filtering
+- ✅ Container-based responsive layouts
+- ✅ Filter & highlight actions
 - ✅ Geographic mapping & spatial analysis
 
 **Design & UX:**
 - ✅ Information architecture & layout design
+- ✅ Container hierarchy & responsive design
 - ✅ Brand-consistent styling & color theory
 - ✅ Minimalist visualization principles
 - ✅ User-centric tooltip design
+- ✅ Dashboard interactivity & navigation
 
 ---
 
@@ -128,7 +149,7 @@ YoY % = (SUM([CY Sales]) - SUM([PY Sales])) / SUM([PY Sales])
 1. **Step 1:** Requirements Analysis & Chart Selection
 2. **Step 2:** Data Source Building & Validation
 3. **Step 3:** Chart Construction & Formatting
-4. **Step 4:** Dashboard Assembly *(In progress)*
+4. **Step 4:** Dashboard Assembly & Interactivity ✅
 
 Each step includes detailed explanations, formulas, best practices, and visual examples.
 
