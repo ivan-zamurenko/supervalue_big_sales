@@ -1402,7 +1402,303 @@ Sales Change: <(SUM(CY Sales)-SUM(PY Sales))/SUM(PY Sales)>
 
 ---
 
-### 3.3 Format Charts - Minimalist Design Principles
+#### **📊 Chart 4: Weekly Trends for Sales & Profit**
+
+This chart provides granular weekly analysis with performance benchmarking against average values to quickly identify exceptional and underperforming periods.
+
+##### **🎯 Objective**
+Present weekly sales and profit data for the current year, display average weekly values, and highlight weeks that are above and below the average to draw immediate attention to performance variations.
+
+---
+
+##### **Step 1: Build Weekly Trend Chart Structure**
+
+**Creating the Base Chart:**
+
+1. Create new worksheet: Name it `Weekly Trends - Sales & Profit`
+2. **Columns:** Drag `Order Date` 
+   - Right-click → Select **Week Number** (continuous)
+   - Alternatively use **Week(Order Date)**
+3. **Rows:** Drag `CY Sales` 
+   - Aggregated as **SUM**
+
+**Initial Setup:**
+```
+Weekly Sales Line Chart:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         Peak Week
+            ╱╲
+           ╱  ╲
+          ╱    ╲    ╱╲
+         ╱      ╲  ╱  ╲
+        ╱        ╲╱    ╲
+       ╱                ╲  
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+W1  W5   W10  W15  W20  W25  W30  W35
+```
+
+4. Change mark type to **Line**
+5. Set line color to `#ff5500` (brand orange)
+6. Increase line thickness for visibility (Size: Medium-Large)
+
+---
+
+##### **Step 2: Add Profit to the Chart**
+
+**Creating Dual Metric View:**
+
+**Option A: Dual Axis (Recommended)**
+1. Drag `CY Profit` to Rows (creates second axis)
+2. Right-click on second axis → **Dual Axis**
+3. Right-click axis → **Synchronize Axis** (if scales are similar)
+4. Apply different color to profit line: `#303030` (dark gray)
+5. Adjust line styles:
+   - Sales: Solid line, thicker
+   - Profit: Solid line, slightly thinner or dashed
+
+**Option B: Separate Rows**
+1. Drag `CY Profit` below `CY Sales` in Rows
+2. Creates stacked view - two separate charts aligned vertically
+3. Easier to read when scales differ significantly
+
+**Visual with Dual Axis:**
+```
+Weekly Sales & Profit (Dual Axis)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         ╱╲          Sales
+        ╱  ╲         ━━━━━
+       ╱    ╲    
+      ╱      ╲  ╱╲   Profit
+     ╱        ╲╱  ╲  ┄┄┄┄┄
+    ╱              ╲
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+W1     W10      W20      W30      W40
+```
+
+---
+
+##### **Step 3: Add Average Reference Lines**
+
+**Purpose:** Provide benchmark to identify above/below average performance weeks.
+
+**Adding Average Line for Sales:**
+
+1. Right-click on Y-axis (Sales) → **Add Reference Line**
+2. Configure reference line settings:
+
+```
+┌─────────────────────────────────────┐
+│  Add Reference Line                 │
+├─────────────────────────────────────┤
+│  Scope: Entire Table                │
+│  Value: Average (SUM(CY Sales))     │
+│  Label: Custom - "Avg Sales"        │
+│  Line:                              │
+│    Style: ─ ─ ─ (Dashed)           │
+│    Color: #b3b3b3 (Light Gray)      │
+│    Width: Medium                    │
+│  Fill: None                         │
+│  Tooltip: Show value on hover       │
+└─────────────────────────────────────┘
+```
+
+3. Click **OK**
+
+**Adding Average Line for Profit:**
+
+1. If using dual axis, click on Profit axis (right side)
+2. Right-click → **Add Reference Line**
+3. Configure similarly:
+   - Value: Average (SUM(CY Profit))
+   - Label: "Avg Profit"
+   - Same styling as sales average line
+4. Click **OK**
+
+**Chart with Average Lines:**
+```
+Weekly Trends with Average Benchmarks
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         Peak
+          ╱╲
+         ╱  ╲    
+        ╱    ╲  ╱╲
+─────────────────────────── Avg Sales
+      ╱      ╲╱  ╲
+     ╱            ╲
+    ╱              ╲  
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+W1  W5   W10  W15  W20  W25  W30  W35
+```
+
+---
+
+##### **Step 4: Highlight Above/Below Average Weeks**
+
+**Purpose:** Draw visual attention to exceptional and underperforming weeks.
+
+**Method 1: Color Coding by Performance**
+
+Create a calculated field to identify performance level:
+
+**Calculated Field Name:** `Sales Performance vs Average`
+
+**Formula:**
+```
+IF SUM([CY Sales]) >= WINDOW_AVG(SUM([CY Sales]))
+THEN "Above Average"
+ELSE "Below Average"
+END
+```
+
+**Applying Color Coding:**
+1. Drag `Sales Performance vs Average` to **Color** on Marks card
+2. Edit table calculation:
+   - Compute using: **Table (across)**
+3. Assign colors:
+   - Above Average → `#ff5500` (brand orange) or green
+   - Below Average → `#b3b3b3` (light gray) or red
+
+**Visual Result:**
+```
+Color-Coded Weekly Performance
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      Peak (Orange)
+         ╱╲
+        ╱  ╲ (Orange)
+       ╱    ╲  ╱╲ (Orange)
+──────────────────────────── Average
+     ╱ (Gray) ╲╱  ╲
+    ╱ (Gray)      ╲ (Gray)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Above Avg: Orange | Below Avg: Gray
+```
+
+---
+
+**Method 2: Area Fill Highlighting**
+
+Alternative approach using reference bands:
+
+1. Right-click axis → **Add Reference Band**
+2. Configure band:
+   - From: **Minimum**
+   - To: **Average**
+   - Fill: Light red (`#ffcccc`) with low opacity
+   - Label: "Below Average"
+3. Add second band:
+   - From: **Average**
+   - To: **Maximum**
+   - Fill: Light green (`#ccffcc`) with low opacity
+   - Label: "Above Average"
+
+---
+
+##### **Step 5: Apply Formatting - Clean & Focused**
+
+**🎨 Color Refinement:**
+1. **Sales line:** `#ff5500` (brand orange), thick
+2. **Profit line:** `#303030` (dark gray), medium
+3. **Average lines:** `#b3b3b3` (light gray), dashed
+4. **Above avg highlights:** `#ff5500` or subtle green tint
+5. **Below avg highlights:** `#b3b3b3` or subtle red tint
+
+---
+
+**🧹 Remove Clutter:**
+
+1. **Grid Lines:** Remove all (as per minimalist principles)
+   - Right-click chart → Format → Lines → None
+
+2. **Axes:**
+   - X-axis: Keep week numbers, remove title
+   - Y-axis: Abbreviated format `$#,##0K`, remove title
+   - Consider hiding Y-axis for cleaner look if values in tooltips
+
+3. **Legend:**
+   - If using color coding, keep legend compact
+   - Position: Top-right corner or bottom
+   - Use clear labels: "Above Avg" / "Below Avg"
+
+---
+
+**💬 Enhanced Tooltips:**
+
+Create informative tooltips with context:
+
+**Tooltip Template:**
+```html
+<b>📅 Week <WEEK(Order Date)></b>
+
+<b>Current Year Performance</b>
+Sales: <b><SUM(CY Sales)></b>
+Profit: <SUM(CY Profit)>
+Profit Margin: <SUM(CY Profit)/SUM(CY Sales)>
+
+<b>Benchmark Comparison</b>
+vs Avg Sales: <(SUM(CY Sales) - WINDOW_AVG(SUM(CY Sales))) / WINDOW_AVG(SUM(CY Sales))>
+Status: <IF SUM(CY Sales) >= WINDOW_AVG(SUM(CY Sales)) THEN "✓ Above Average" ELSE "⚠ Below Average" END>
+```
+
+**Format Settings:**
+- Currency: `$#,##0`
+- Percentages: `+#.#%;-#.#%`
+- Use conditional icons (✓, ⚠) for quick status recognition
+
+**Enhanced Tooltip Example:**
+```
+┌─────────────────────────────────┐
+│ 📅 Week 23                      │
+│                                 │
+│ Current Year Performance        │
+│ Sales: $67,234                  │
+│ Profit: $9,125                  │
+│ Profit Margin: 13.6%            │
+│                                 │
+│ Benchmark Comparison            │
+│ vs Avg Sales: +8.3%             │
+│ Status: ✓ Above Average         │
+└─────────────────────────────────┘
+```
+
+---
+
+**🎨 Final Polish:**
+
+1. **Title:**
+   - "Weekly Sales & Profit Trends - Current Year"
+   - Or hide if context clear from dashboard
+
+2. **Annotations (Optional):**
+   - Add callout to highest/lowest weeks
+   - Example: "Peak Week: $87K" with arrow
+
+3. **Line Smoothness:**
+   - Keep lines angular for week-to-week accuracy
+   - Avoid smoothing that might obscure actual variations
+
+4. **Background:**
+   - Keep white or very light gray
+   - Ensure high contrast with data lines
+
+---
+
+##### **📊 Screenshot Reference**
+
+<div align="center">
+  <img src="tableau/screenshots/weekly_trends_for_sales_and_profit.png" alt="Weekly Trends for Sales and Profit with Average Benchmarks" width="800"/>
+</div>
+
+**Chart Features Visible:**
+- ✅ Weekly sales line (orange) for current year
+- ✅ Weekly profit line (dark gray) for current year
+- ✅ Average reference lines (dashed light gray)
+- ✅ Color-coded segments (above/below average)
+- ✅ Clean axes with minimal clutter
+- ✅ Clear visual distinction of performance zones
+
+---
+
+### 3.4 Format Charts - Minimalist Design Principles
 
 > **Philosophy:** Reduce visual clutter to focus attention on data insights. Every element should serve a purpose; remove everything else.
 
@@ -1648,11 +1944,13 @@ Growth: <IF YoY % > 0 THEN "↑" ELSE "↓" END> <YoY Sales % Diff>
    └─ ✓ YoY % Difference
    └─ ✓ Max Sales Month (tested)
    └─ ✓ Min Sales Month (tested)
+   └─ ✓ Sales Performance vs Average
 
 ✅ Charts Built
    └─ ✓ BANs: Total Sales, Profit, Quantity
    └─ ✓ Sparkline: Monthly trends with min/max highlights
    └─ ✓ Sales & Profit by Subcategory: Bar-in-Bar comparison
+   └─ ✓ Weekly Trends: Sales & Profit with average benchmarks
 
 ✅ Formatting Applied
    └─ ✓ Grid lines removed
@@ -1661,6 +1959,8 @@ Growth: <IF YoY % > 0 THEN "↑" ELSE "↓" END> <YoY Sales % Diff>
    └─ ✓ Tooltips customized and formatted
    └─ ✓ Minimalist design principles followed
    └─ ✓ Bar-in-bar styling for direct comparison
+   └─ ✓ Average reference lines added
+   └─ ✓ Above/below average highlighting implemented
 ```
 
 ---
@@ -1672,7 +1972,10 @@ Growth: <IF YoY % > 0 THEN "↑" ELSE "↓" END> <YoY Sales % Diff>
 - ✅ **Year-over-Year Analysis:** Calculating growth metrics and trends
 - ✅ **Comparative Visualization:** Bar-in-bar charts for period comparison
 - ✅ **Categorical Analysis:** Product subcategory performance breakdown
-- ✅ **Table Calculations:** Using WINDOW_MAX and WINDOW_MIN for extrema identification
+- ✅ **Time-Series Analysis:** Weekly trend identification and pattern recognition
+- ✅ **Benchmarking:** Adding reference lines for average value comparison
+- ✅ **Performance Highlighting:** Color-coding above/below average performance
+- ✅ **Table Calculations:** Using WINDOW_MAX, WINDOW_MIN, WINDOW_AVG functions
 - ✅ **Testing Methodology:** Validating calculations before production deployment
 - ✅ **Visual Design:** Applying minimalist principles and brand guidelines
 - ✅ **Data Storytelling:** Using color and formatting to highlight insights
@@ -1698,6 +2001,14 @@ Growth: <IF YoY % > 0 THEN "↑" ELSE "↓" END> <YoY Sales % Diff>
 🎯 Save Formatting as Default
    Right-click formatted element → Set as Default
    Applies to all new worksheets automatically
+
+🎯 Reference Lines for Context
+   Add average, median, or target lines
+   Helps users quickly assess performance against benchmarks
+   
+🎯 Color with Purpose
+   Use color to highlight insights, not just decoration
+   Above/below average, positive/negative, high/low performers
 
 🎯 Create a Style Guide Sheet
    Build a reference sheet with all brand colors
