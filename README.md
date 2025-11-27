@@ -56,7 +56,7 @@ supervalue_big_sales/
 ### Sales Dashboard Components (Step 3 Results)
 
 <div align="center">
-  <img src="tableau/screenshots/step3_sales_charts.png" alt="Sales Dashboard - KPIs and Sparklines" width="800"/>
+  <img src="tableau_screenshots/step3_sales_charts.png" alt="Sales Dashboard - KPIs and Sparklines" width="800"/>
 </div>
 
 **Featured Visualizations:**
@@ -70,7 +70,7 @@ supervalue_big_sales/
 ### Complete Sales Dashboard (Step 4 - Assembly)
 
 <div align="center">
-  <img src="tableau/screenshots/dashboard_prep.png" alt="Complete Sales Performance Dashboard" width="900"/>
+  <img src="tableau_screenshots/dashboard_prep.png" alt="Complete Sales Performance Dashboard" width="900"/>
 </div>
 
 **Dashboard Features:**
@@ -87,7 +87,7 @@ supervalue_big_sales/
 ### Fully Dynamic Dashboard with Filters (Step 4.1 - Complete)
 
 <div align="center">
-  <img src="tableau/screenshots/dashboard_with_filters.png" alt="Sales Dashboard with Dynamic Filters Panel" width="900"/>
+  <img src="tableau_screenshots/dashboard_with_filters.png" alt="Sales Dashboard with Dynamic Filters Panel" width="900"/>
 </div>
 
 **Interactive Filter Features:**
