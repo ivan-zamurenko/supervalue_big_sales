@@ -1147,7 +1147,262 @@ Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
 
 ---
 
-### 3.2 Format Charts - Minimalist Design Principles
+#### **📊 Chart 3: Sales & Profit by Subcategory - Bar-in-Bar Comparison**
+
+This chart provides a comprehensive view of product performance by comparing sales and profit across subcategories for current and previous years.
+
+##### **🎯 Objective**
+Compare sales performance by different product subcategories for CY and PY, including a comparison of sales with profit to identify top performers and profitability patterns.
+
+---
+
+##### **Step 1: Build Basic Subcategory Chart**
+
+**Creating the Structure:**
+
+1. Create new worksheet: Name it `Sales & Profit by Subcategory`
+2. **Rows:** Drag `Sub-Category` 
+   - This creates horizontal bars (better for reading category names)
+3. **Columns:** Drag `CY Sales` and `PY Sales`
+   - Both measures will appear side-by-side
+
+**Initial Setup:**
+```
+Sub-Category Layout:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Phones        ████████ CY  ██████ PY
+Chairs        ██████ CY  █████ PY
+Storage       █████ CY  ████ PY
+Tables        ████ CY  ███ PY
+Binders       ████ CY  ███ PY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+##### **Step 2: Create Bar-in-Bar Effect**
+
+**Purpose:** Show CY and PY in a nested comparison for direct visual comparison.
+
+**Configuration:**
+
+1. Change mark type to **Bar**
+2. Drag `Measure Names` to **Color** on Marks card
+3. Adjust bar sizing:
+   - Click **Size** on Marks card
+   - For one measure (PY Sales): Make bar **wider**
+   - For other measure (CY Sales): Make bar **narrower**
+   - This creates the nested bar-in-bar effect
+
+**Visual Result:**
+```
+Product Subcategory Comparison (Bar-in-Bar)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Phones       ████████████████ 2024
+             ███████████ 2023
+                                      
+Chairs       ████████████ 2024
+             ██████████ 2023
+                                      
+Storage      ██████████ 2024
+             ████████ 2023
+                                      
+Tables       ████████ 2024
+             ██████ 2023
+                                      
+Accessories  ██████ 2024
+             █████ 2023
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+         0      50K    100K   150K   200K
+```
+
+---
+
+##### **Step 3: Add Profit Comparison**
+
+**Purpose:** Include profit metrics alongside sales to analyze profitability by subcategory.
+
+**Two Approaches:**
+
+**Option A: Dual Axis (Sales + Profit)**
+1. Drag `CY Profit` to Columns (creates second axis)
+2. Right-click second axis → **Dual Axis**
+3. Right-click axis → **Synchronize Axis**
+4. Change `CY Profit` mark type to **Circle** or **Line** to differentiate
+5. Apply different color to profit (e.g., `#303030`)
+
+**Option B: Side-by-Side Metrics**
+1. Drag `Measure Values` to Columns
+2. Filter to show: CY Sales, PY Sales, CY Profit, PY Profit
+3. Organize as grouped bars
+
+**Recommended: Option A** - Cleaner visual, easier comparison
+
+---
+
+##### **Step 4: Sort by Performance**
+
+**Purpose:** Highlight top and bottom performers immediately.
+
+1. Click on subcategory axis
+2. Click **Sort** icon (ascending/descending bars)
+3. Sort by: **CY Sales** (Descending)
+   - Shows highest performers at top
+
+**Sorted View:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Phones (Top)    ████████████████
+Chairs          ████████████
+Storage         ██████████
+Tables          ████████
+Binders         ██████
+Accessories     ████
+Art (Bottom)    ██
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+##### **Step 5: Apply Formatting - Minimalist Design**
+
+Following the same principles from Section 3.2, apply clean formatting:
+
+**🎨 Color Scheme:**
+1. **CY Sales bars:** `#ff5500` (brand orange)
+2. **PY Sales bars:** `#b3b3b3` (light gray)
+3. **CY Profit indicators:** `#303030` (dark gray circles/line)
+4. **Background:** White or very light gray
+
+**How to Apply Colors:**
+1. Click on **CY Sales** in Marks card → Color → `#ff5500`
+2. Click on **PY Sales** in Marks card → Color → `#b3b3b3`
+3. Adjust opacity if needed for better layering visibility
+
+---
+
+**🧹 Remove Grid Lines & Clean Axes:**
+
+1. Right-click chart → **Format**
+2. **Lines tab:**
+   - Grid Lines → Rows: **None**
+   - Grid Lines → Columns: **None**
+   - Zero Lines → **None**
+
+3. **Clean up X-axis (Values):**
+   - Right-click axis → **Format**
+   - Numbers → Currency/Number abbreviated format: `$#,##0K`
+   - Remove unnecessary tick marks
+
+4. **Simplify Y-axis (Categories):**
+   - Keep subcategory names visible (essential for reading)
+   - Remove axis title if obvious from context
+   - Ensure adequate spacing between bars
+
+**Before vs After:**
+```
+BEFORE (Cluttered):
+┌───────────────────────────┐
+│ Sales │ │ │ │ │ │ │ │    │
+├───────┼─┼─┼─┼─┼─┼─┼─┼────┤
+│Phones │████│██│█│        │
+├───────┼─┼─┼─┼─┼─┼─┼─┼────┤
+│Chairs │███│██│█│         │
+└───────────────────────────┘
+
+AFTER (Clean):
+┌───────────────────────────┐
+│                           │
+│ Phones  ████████          │
+│         ██████            │
+│                           │
+│ Chairs  ██████            │
+│         ████              │
+└───────────────────────────┘
+```
+
+---
+
+**📝 Headers & Titles:**
+
+1. **Chart Title:**
+   - Double-click title
+   - Change to: `Sales & Profit by Product Subcategory`
+   - Or hide if dashboard context makes it obvious
+
+2. **Axis Titles:**
+   - Remove X-axis title (values are self-explanatory with $ format)
+   - Remove Y-axis title ("Sub-Category" is redundant)
+
+---
+
+**💬 Custom Tooltips:**
+
+Create informative, formatted tooltips:
+
+**Tooltip Template:**
+```html
+<b>📦 <Sub-Category></b>
+
+<b>Current Year (2024)</b>
+Sales: <b><SUM(CY Sales)></b>
+Profit: <SUM(CY Profit)>
+Profit Margin: <SUM(CY Profit)/SUM(CY Sales)>
+
+<b>Previous Year (2023)</b>
+Sales: <SUM(PY Sales)>
+Profit: <SUM(PY Profit)>
+
+<b>Year-over-Year Growth</b>
+Sales Change: <(SUM(CY Sales)-SUM(PY Sales))/SUM(PY Sales)>
+```
+
+**Format Tooltip Fields:**
+1. Click field in tooltip editor → Format
+2. Sales/Profit: Currency, `$#,##0`
+3. Profit Margin: Percentage, `#.#%`
+4. YoY Change: Percentage with +/- sign, `+#.#%;-#.#%`
+
+**Enhanced Tooltip Example:**
+```
+┌─────────────────────────────┐
+│ 📦 Phones                   │
+│                             │
+│ Current Year (2024)         │
+│ Sales: $330,007             │
+│ Profit: $44,516             │
+│ Profit Margin: 13.5%        │
+│                             │
+│ Previous Year (2023)        │
+│ Sales: $286,398             │
+│ Profit: $38,200             │
+│                             │
+│ Year-over-Year Growth       │
+│ Sales Change: +15.2% ↑      │
+└─────────────────────────────┘
+```
+
+---
+
+**📐 Final Adjustments:**
+
+1. **Bar Spacing:**
+   - Format → Layout
+   - Adjust row/column dividers for optimal spacing
+
+2. **Label Alignment:**
+   - Ensure subcategory names are left-aligned
+   - Use consistent font (Arial or Tableau default)
+   - Font size: 10-11pt for readability
+
+3. **Reference Lines (Optional):**
+   - Add average sales line for context
+   - Format as thin dashed line `#b3b3b3`
+   - Label: "Average Sales"
+
+---
+
+### 3.3 Format Charts - Minimalist Design Principles
 
 > **Philosophy:** Reduce visual clutter to focus attention on data insights. Every element should serve a purpose; remove everything else.
 
@@ -1397,6 +1652,7 @@ Growth: <IF YoY % > 0 THEN "↑" ELSE "↓" END> <YoY Sales % Diff>
 ✅ Charts Built
    └─ ✓ BANs: Total Sales, Profit, Quantity
    └─ ✓ Sparkline: Monthly trends with min/max highlights
+   └─ ✓ Sales & Profit by Subcategory: Bar-in-Bar comparison
 
 ✅ Formatting Applied
    └─ ✓ Grid lines removed
@@ -1404,6 +1660,7 @@ Growth: <IF YoY % > 0 THEN "↑" ELSE "↓" END> <YoY Sales % Diff>
    └─ ✓ Brand colors applied consistently
    └─ ✓ Tooltips customized and formatted
    └─ ✓ Minimalist design principles followed
+   └─ ✓ Bar-in-bar styling for direct comparison
 ```
 
 ---
@@ -1413,6 +1670,8 @@ Growth: <IF YoY % > 0 THEN "↑" ELSE "↓" END> <YoY Sales % Diff>
 - ✅ **Tableau Calculated Fields:** Creating complex formulas with IF, YEAR, WINDOW functions
 - ✅ **Parameter Creation:** Enabling dynamic user interaction
 - ✅ **Year-over-Year Analysis:** Calculating growth metrics and trends
+- ✅ **Comparative Visualization:** Bar-in-bar charts for period comparison
+- ✅ **Categorical Analysis:** Product subcategory performance breakdown
 - ✅ **Table Calculations:** Using WINDOW_MAX and WINDOW_MIN for extrema identification
 - ✅ **Testing Methodology:** Validating calculations before production deployment
 - ✅ **Visual Design:** Applying minimalist principles and brand guidelines
