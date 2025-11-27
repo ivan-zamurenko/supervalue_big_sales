@@ -60,10 +60,10 @@ supervalue_big_sales/
 </div>
 
 **Featured Visualizations:**
-- **Total Sales BAN** with YoY comparison and % difference
-- **Total Profit BAN** *(Next: In progress)*
-- **Total Quantity BAN** *(Next: In progress)*
-- **Monthly Sales Sparkline** with min/max highlights showing trend patterns
+- **Total Sales BAN** with YoY comparison and % difference ✅
+- **Total Profit BAN** with YoY comparison and % difference ✅
+- **Total Quantity BAN** with YoY comparison and % difference ✅
+- **Monthly Sales Sparkline** with min/max highlights showing trend patterns ✅
 
 ---
 

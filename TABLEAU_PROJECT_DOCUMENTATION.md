@@ -945,8 +945,31 @@ END
    - Red (#ff0000) for negative growth
 
 **Repeat for Other KPIs:**
-- **BAN - Total Profit:** Use `[Profit]` field instead of `[Sales]`
-- **BAN - Total Quantity:** Use `[Quantity]` field instead of `[Sales]`
+
+Following the exact same methodology, create additional BANs:
+
+- **BAN - Total Profit:** 
+  - Create calculated fields: `CY Profit`, `PY Profit`, `YoY Profit % Diff`
+  - Use `[Profit]` field instead of `[Sales]` in all formulas
+  - Apply same formatting and color scheme
+  - ✅ **Status: Complete**
+
+- **BAN - Total Quantity:**
+  - Create calculated fields: `CY Quantity`, `PY Quantity`, `YoY Quantity % Diff`
+  - Use `[Quantity]` field instead of `[Sales]` in all formulas
+  - Format as whole numbers (no decimals)
+  - Apply same formatting and color scheme
+  - ✅ **Status: Complete**
+
+**All Three KPI BANs Structure:**
+```
+┌─────────────┬─────────────┬─────────────┐
+│ Total Sales │Total Profit │Total Quantity│
+│             │             │             │
+│ $2,456,892  │  $342,567   │   15,847    │
+│ ↑ 12.5%     │  ↑ 8.3%     │   ↑ 6.7%    │
+└─────────────┴─────────────┴─────────────┘
+```
 
 ---
 
